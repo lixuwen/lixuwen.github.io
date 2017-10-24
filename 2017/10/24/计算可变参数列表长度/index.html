@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，函数方法如下：">
+<meta name="description" content="看到题目，第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，实例函数方法如下：">
 <meta name="keywords" content="Objective-C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算可变参数列表长度">
 <meta property="og:url" content="http://yoursite.com/2017/10/24/计算可变参数列表长度/index.html">
 <meta property="og:site_name" content="小巨人的技术博客">
-<meta property="og:description" content="第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，函数方法如下：">
+<meta property="og:description" content="看到题目，第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，实例函数方法如下：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/24/计算可变参数列表长度/metamacro_at_expansions.png">
-<meta property="og:updated_time" content="2017-10-24T11:06:45.000Z">
+<meta property="og:updated_time" content="2017-10-24T11:23:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算可变参数列表长度">
-<meta name="twitter:description" content="第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，函数方法如下：">
+<meta name="twitter:description" content="看到题目，第一反应就是通过 va_list va_start va_arg va_end 等参数列表API遍历计算参数列表长度，实例函数方法如下：">
 <meta name="twitter:image" content="http://yoursite.com/2017/10/24/计算可变参数列表长度/metamacro_at_expansions.png">
 
 
@@ -194,9 +194,9 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -302,7 +302,8 @@
       
 
       
-        <p>第一反应就是通过 <code>va_list</code> <code>va_start</code> <code>va_arg</code> <code>va_end</code> 等参数列表API遍历计算参数列表长度，函数方法如下：<br><a id="more"></a><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSInteger</span>)mutableArgumentsCount:(<span class="built_in">NSString</span> *)firstArg, ... <span class="built_in">NS_REQUIRES_NIL_TERMINATION</span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSInteger</span> count = <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(!firstArg)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    count = <span class="number">1</span>;</div><div class="line">    </div><div class="line">    va_list args;</div><div class="line">    <span class="built_in">NSString</span> *arg;</div><div class="line">    va_start(args, firstArg);</div><div class="line">    <span class="keyword">while</span> ((arg = va_arg(args, <span class="built_in">NSString</span> *))) &#123;</div><div class="line">        count += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    va_end(args);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> count;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">NSInteger</span> count = [<span class="keyword">self</span> mutableArgumentsCount:<span class="string">@"Hello"</span>, <span class="string">@"world"</span>, <span class="string">@"!"</span>, <span class="literal">nil</span>]; <span class="comment">// count = 3</span></div></pre></td></tr></table></figure></p>
+        <p>看到题目，第一反应就是通过 <code>va_list</code> <code>va_start</code> <code>va_arg</code> <code>va_end</code> 等参数列表API遍历计算参数列表长度，实例函数方法如下：<br><a id="more"></a></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSInteger</span>)mutableArgumentsCount:(<span class="built_in">NSString</span> *)firstArg, ... <span class="built_in">NS_REQUIRES_NIL_TERMINATION</span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSInteger</span> count = <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(!firstArg)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    count = <span class="number">1</span>;</div><div class="line">    </div><div class="line">    va_list args;</div><div class="line">    <span class="built_in">NSString</span> *arg;</div><div class="line">    va_start(args, firstArg);</div><div class="line">    <span class="keyword">while</span> ((arg = va_arg(args, <span class="built_in">NSString</span> *))) &#123;</div><div class="line">        count += <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    va_end(args);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> count;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">NSInteger</span> count = [<span class="keyword">self</span> mutableArgumentsCount:<span class="string">@"Hello"</span>, <span class="string">@"world"</span>, <span class="string">@"!"</span>, <span class="literal">nil</span>]; <span class="comment">// count = 3</span></div></pre></td></tr></table></figure>
 <p>非常简单，但是这个需要执行一下这个才能得出参数列表长度；其实对于可变参数列表在编译阶段就已经确定入参了，想想看，是不是对于有参数是<code>···</code> 的方法，我们在使用时其实已经传入了确定的参数。</p>
 <p>那有什么方法在编译阶段可以计算出可变参数列表的长度呢？</p>
 <p>ReactiveCocoa 的 RACmetamacros.h 文件中有一系列宏可以搞定这个事情。</p>
@@ -440,7 +441,7 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
