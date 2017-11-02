@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真想又如何呢？">
+<meta name="description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真相又如何呢？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ReactiveCocoa 之 RAC &amp; RACObserve">
 <meta property="og:url" content="http://yoursite.com/2017/10/24/RAC-RACObserve/index.html">
 <meta property="og:site_name" content="小巨人的技术博客">
-<meta property="og:description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真想又如何呢？">
+<meta property="og:description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真相又如何呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-26T15:07:28.000Z">
+<meta property="og:updated_time" content="2017-10-27T15:00:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ReactiveCocoa 之 RAC &amp; RACObserve">
-<meta name="twitter:description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真想又如何呢？">
+<meta name="twitter:description" content="RAC 和 RACObserve 是我们在用ReactiveCocoa时使用频率非常高的两个宏。 RAC(self.nameLabel, text) = RACObserve(self.model, name);  只要 self.model 的 name 属性一有变化就会同步给 self.nameLabel 的 text 属性，猜测其底层实现是通过 KVO 实现的，那真相又如何呢？">
 
 
 
@@ -353,7 +353,7 @@
       
         <p><code>RAC</code> 和 <code>RACObserve</code> 是我们在用ReactiveCocoa时使用频率非常高的两个宏。</p>
 <p><code>RAC(self.nameLabel, text) = RACObserve(self.model, name);</code> </p>
-<p>只要 <code>self.model</code> 的 <code>name</code> 属性一有变化就会同步给 <code>self.nameLabel</code> 的 <code>text</code> 属性，猜测其底层实现是通过 <code>KVO</code> 实现的，那真想又如何呢？<br><a id="more"></a></p>
+<p>只要 <code>self.model</code> 的 <code>name</code> 属性一有变化就会同步给 <code>self.nameLabel</code> 的 <code>text</code> 属性，猜测其底层实现是通过 <code>KVO</code> 实现的，那真相又如何呢？<br><a id="more"></a></p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#define RAC(TARGET, ...) \</span></div><div class="line">    metamacro_if_eq(<span class="number">1</span>, metamacro_argcount(__VA_ARGS__)) \</div><div class="line">        (RAC_(TARGET, __VA_ARGS__, <span class="literal">nil</span>)) \</div><div class="line">        (RAC_(TARGET, __VA_ARGS__))</div></pre></td></tr></table></figure>
 <p>使用时非常简单，但是本质上这个宏稍显复杂，总共有三部分组成，让我们先简化一下，把宏定义中的后两部分用<code>(EXP1)</code> <code>(EXP2)</code>来替换，然后一部分一部分展开分析。</p>
 <h3 id="metamacro-if-eq"><a href="#metamacro-if-eq" class="headerlink" title="metamacro_if_eq"></a>metamacro_if_eq</h3><p><code>metamacro_if_eq(1, metamacro_argcount(__VA_ARGS__))(EXP1)(EXP2)</code></p>
@@ -476,6 +476,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/10/27/宏-从入门到精通/" rel="prev" title="宏--从入门到精通">
+                宏--从入门到精通 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -555,7 +559,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -566,7 +570,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
