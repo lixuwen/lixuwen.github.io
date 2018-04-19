@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="这个专题主要用来记录平时项目中用到的一些富有技巧性的方式和方法，每一个问题的解决方式都不局限于一种，但是总有一种解决方案能让你眼前一亮～">
+<meta name="description" content="特殊情况下，我们需要将一个异步执行的方法处理成一个同步的方法，这样可以把异步方法返回的结果同步给后续的使用者，这种奇特的需求在程序员的眼中总是有看似完美的解决方案。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="将异步方法封装成同步方法">
 <meta property="og:url" content="http://yoursite.com/2018/01/22/将异步方法封装成同步方法/index.html">
 <meta property="og:site_name" content="小巨人的技术博客">
-<meta property="og:description" content="这个专题主要用来记录平时项目中用到的一些富有技巧性的方式和方法，每一个问题的解决方式都不局限于一种，但是总有一种解决方案能让你眼前一亮～">
+<meta property="og:description" content="特殊情况下，我们需要将一个异步执行的方法处理成一个同步的方法，这样可以把异步方法返回的结果同步给后续的使用者，这种奇特的需求在程序员的眼中总是有看似完美的解决方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-19T15:43:36.140Z">
+<meta property="og:updated_time" content="2018-04-19T15:48:11.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="将异步方法封装成同步方法">
-<meta name="twitter:description" content="这个专题主要用来记录平时项目中用到的一些富有技巧性的方式和方法，每一个问题的解决方式都不局限于一种，但是总有一种解决方案能让你眼前一亮～">
+<meta name="twitter:description" content="特殊情况下，我们需要将一个异步执行的方法处理成一个同步的方法，这样可以把异步方法返回的结果同步给后续的使用者，这种奇特的需求在程序员的眼中总是有看似完美的解决方案。">
 
 
 
@@ -351,7 +351,7 @@
       
 
       
-        <p>这个专题主要用来记录平时项目中用到的一些富有技巧性的方式和方法，每一个问题的解决方式都不局限于一种，但是总有一种解决方案能让你眼前一亮～</p>
+        <p>特殊情况下，我们需要将一个异步执行的方法处理成一个同步的方法，这样可以把异步方法返回的结果同步给后续的使用者，这种奇特的需求在程序员的眼中总是有看似完美的解决方案。</p>
 <a id="more"></a>
 <h2 id="将异步方法封装成同步方法"><a href="#将异步方法封装成同步方法" class="headerlink" title="将异步方法封装成同步方法"></a>将异步方法封装成同步方法</h2><h3 id="方法-1、Semaphore（⭐️⭐️⭐️⭐️⭐️）"><a href="#方法-1、Semaphore（⭐️⭐️⭐️⭐️⭐️）" class="headerlink" title="方法 1、Semaphore（⭐️⭐️⭐️⭐️⭐️）"></a>方法 1、Semaphore（⭐️⭐️⭐️⭐️⭐️）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p><strong>信号量</strong> 通常是用来控制多个并发任务执行时对并发执行数量的限制，利用这个特性我们就可以将异步方法封装成同步方法来使用。</p>
 <p>这里介绍一下用到的三个函数：</p>
