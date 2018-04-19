@@ -79,14 +79,23 @@
 
 
 
+<meta name="description" content="打开手机上安装的应用，从点击图标的那一刻起到看到第一个真正的界面，这中间没有加入广告的少之又少，有的是为了缓解应用启动时等待的时长而象征性的加入广告，有的就真的是为了广告而播放广告。本文暂且不讨论广告的事情（反正我很反感那些为了广告而播放广告的应用），让我们一起来看看从点击图标的那一刻起时间都去哪了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="时间都去哪了">
 <meta property="og:url" content="http://yoursite.com/2018/01/01/时间都去哪了/index.html">
 <meta property="og:site_name" content="小巨人的技术博客">
+<meta property="og:description" content="打开手机上安装的应用，从点击图标的那一刻起到看到第一个真正的界面，这中间没有加入广告的少之又少，有的是为了缓解应用启动时等待的时长而象征性的加入广告，有的就真的是为了广告而播放广告。本文暂且不讨论广告的事情（反正我很反感那些为了广告而播放广告的应用），让我们一起来看看从点击图标的那一刻起时间都去哪了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-01T13:47:29.095Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/01/时间都去哪了/environment_variables.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/01/时间都去哪了/dyld_steps.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/01/时间都去哪了/mach-o.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/01/时间都去哪了/macho_structure.gif">
+<meta property="og:image" content="http://yoursite.com/2018/01/01/时间都去哪了/segment.png">
+<meta property="og:updated_time" content="2018-04-19T15:30:30.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="时间都去哪了">
+<meta name="twitter:description" content="打开手机上安装的应用，从点击图标的那一刻起到看到第一个真正的界面，这中间没有加入广告的少之又少，有的是为了缓解应用启动时等待的时长而象征性的加入广告，有的就真的是为了广告而播放广告。本文暂且不讨论广告的事情（反正我很反感那些为了广告而播放广告的应用），让我们一起来看看从点击图标的那一刻起时间都去哪了。">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/01/时间都去哪了/environment_variables.png">
 
 
 
@@ -348,7 +357,60 @@
       
 
       
-        
+        <p>打开手机上安装的应用，从点击图标的那一刻起到看到第一个真正的界面，这中间没有加入广告的少之又少，有的是为了缓解应用启动时等待的时长而象征性的加入广告，有的就真的是为了广告而播放广告。本文暂且不讨论广告的事情（反正我很反感那些为了广告而播放广告的应用），让我们一起来看看从点击图标的那一刻起时间都去哪了。</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>众所周知，<code>main()</code> 方法是我们应用的主入口</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[]) &#123;</div><div class="line">    <span class="keyword">@autoreleasepool</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看上去这里好像是应用程序的开始，实则，一部精彩大戏刚刚落下帷幕，本文和大家一起看看 <code>main()</code> 之前的时间都去哪了。</p>
+<p>在iOS10之前，很难去查清楚 <code>main()</code> 函数之前所花费的时间，而现在(iOS10以后)可以通过在工程中给目标 <code>scheme</code> 添加 <code>DYLD_PRINT_STATISTICS</code> 或 <code>DYLD_PRINT_STATISTICS_DETAILS</code> 环境变量来打印 <code>main()</code> 函数之前的耗时。</p>
+<img src="/2018/01/01/时间都去哪了/environment_variables.png" alt="environment_variables.png" title="">
+<p>添加 <code>DYLD_PRINT_STATISTICS</code> 环境变量的日志输出</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Total pre-main time: <span class="number">708.76</span> milliseconds (<span class="number">100.0</span>%)</div><div class="line">         dylib loading time:  <span class="number">93.84</span> milliseconds (<span class="number">13.2</span>%)</div><div class="line">        rebase/binding time: <span class="number">550.80</span> milliseconds (<span class="number">77.7</span>%)</div><div class="line">            ObjC setup time:  <span class="number">35.04</span> milliseconds (<span class="number">4.9</span>%)</div><div class="line">           initializer time:  <span class="number">28.84</span> milliseconds (<span class="number">4.0</span>%)</div><div class="line">           slowest intializers :</div><div class="line">               libSystem.dylib :   <span class="number">2.84</span> milliseconds (<span class="number">0.4</span>%)</div><div class="line">    libMainThreadChecker.dylib :  <span class="number">16.50</span> milliseconds (<span class="number">2.3</span>%)</div></pre></td></tr></table></figure>
+<p>从日志上可以看出 <code>main()</code> 函数之前一共做了<strong>四</strong>件事情，每件事情所花费的时间及时间占比也都一一打印了出来，那么让我们一一分析每一步所做的事情。</p>
+<p>这里借用Apple在<a href="https://developer.apple.com/videos/play/wwdc2016/406/" target="_blank" rel="external">WWDC</a>上展示的PPT中的一张图来说明一下 <code>main()</code> 函数之前所做的事情</p>
+<img src="/2018/01/01/时间都去哪了/dyld_steps.png" alt="dyld_steps.png" title="">
+<h2 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h2><p>在分析每一步之前我们有必要先了解一下Mach-O</p>
+<p>Mach-O是iOS和MacOS上的可执行二进制文件格式，同Windows上的exe文件，Linux上的elf文件类似。</p>
+<p>如我们经常见到的MacOS应用程序，动态链接库，Bundle等都属于这个范畴。</p>
+<img src="/2018/01/01/时间都去哪了/mach-o.png" alt="mach-o.png" title="">
+<p>Mach-O格式的文件结构如下图所示：<br><img src="/2018/01/01/时间都去哪了/macho_structure.gif" alt="macho_structure.gif" title=""></p>
+<p><strong>Header</strong>：存储Mach-O文件的一些基本信息，包括平台、文件类型、LoadCommands的个数等</p>
+<p><strong>LoadCommands</strong>：紧跟Header，加载Mach-O文件时会使用这里的数据来决定内存的分布和相关的加载命令，如我们的 <code>main()</code> 函数的加载地址，程序所需的 <code>dyld</code> 的=文件路径，以及相关依赖库的文件路径等</p>
+<p><strong>Data</strong>：每一个 <code>segment</code> 的具体数据都保存在这，包含了具体的代码、数据等</p>
+<p>每一个 <code>segment</code> 又包含三个 <code>section</code>，每个 <code>section</code> 都是由 <code>__TEXT</code> <code>__DATA</code> <code>__LINKEDIT</code>三部分组成</p>
+<blockquote>
+<p>1、<code>__TEXT</code> 包含 Mach头文件，被执行的代码和只读常量（如C 字符串）<br>2、<code>__DATA</code> 包含全局变量，静态变量等<br>3、<code>__LINKEDIT</code> 包含了加载程序的元数据，如函数的名称和地址</p>
+</blockquote>
+<img src="/2018/01/01/时间都去哪了/segment.png" alt="segment.png" title="">
+<h2 id="Pre-main"><a href="#Pre-main" class="headerlink" title="Pre-main"></a>Pre-main</h2><h3 id="Load-dylibs"><a href="#Load-dylibs" class="headerlink" title="Load dylibs"></a>Load dylibs</h3><p>顾名思义，就是动态库的加载，这里Apple提供了 <code>dyld</code> 的<a href="https://github.com/opensource-apple/dyld" target="_blank" rel="external">源码</a>。</p>
+<p><code>dyld</code> 是Apple的动态库链接器，系统内核做好启动程序的初始化准备后，就加载主程序的可执行文件（Mach-O），通过分析文件的 <code>Header</code> 部分来获得 <code>dyld</code> 所在路径来加载 <code>dyld</code>以及所有的 <code>dylib</code> 文件，然后所有动态库相关的工作都由 <code>dyld</code> 负责。</p>
+<p>动态库的加载过程可以分为以下几个步骤：</p>
+<p>1、解析App所依赖的动态库，找到对应的Mach-O文件</p>
+<p>2、打开并解析Mach-O文件，校验Mach-O文件的正确性，向系统内核注册代码签名</p>
+<p>3、在 <code>dylib</code> 文件的每个 <code>segment</code> 上调用 <code>mmap()</code>，将Mach-O文件映射到内存中</p>
+<p><strong>备注：</strong>应用所依赖的动态库文件可能会再依赖其它的动态库，那么加载动态库是一个递归加载的过程</p>
+<p>一般情况下，一个应用会加载100到400个动态库，但是大部分都是系统的动态库，Apple对系统的动态库做了高度的优化，加载速度很快。</p>
+<h3 id="Rebase-Bind"><a href="#Rebase-Bind" class="headerlink" title="Rebase/Bind"></a>Rebase/Bind</h3><p><strong>Rebase</strong>以前会把动态库链接库加载到指定地址，所有指针和数据对于代码来说都是对的，<code>dyld</code> 无需做任何修改正工作了；<br>现在出于安全的因素，在加载动态库的过程中，Apple引入了ASLR（Address Space Layout Randomization）技术和代码签名，防止动态库被肆意篡改，那么加载的动态库链接库就会被分配到一个随机地址（actual_address）上并且处于相互独立的状态，与之前指针指向的地址（preferred_address）会有一个偏差，<code>dyld</code> 需要做的就是就是修正（fix-up）指针和数据的偏差(slide)，来指向正确的地址，修改偏差地址的计算公式如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">slide = actual_address - preferred_address</div></pre></td></tr></table></figure>
+<p><code>dyld</code> 需要的做的工作就是重复不断地对 <code>__DATA</code> 段中需要 rebase 的指针加上这个偏移量。</p>
+<p>Rebase做的是将镜像（Image）读入内存，修正镜像内部的指针指向，性能消耗主要在IO。</p>
+<p><strong>Bind</strong>是处理那些指向其它动态链接库的指针，它们实际上被符号（symbol）名称绑定，也就是个字符串。<code>dyld</code> 需要找到symbol对应的实现，查询符号表需要很多计算，找到后会将内容存储到 <code>__DATA</code> 段中的那个指针中；</p>
+<p>比如在程序中调用 <code>malloc</code> 函数，<code>dyld</code> 需要在库中找到 <code>malloc</code> 这个符号对应的子程序的地址然后修改调用程序中的指针。</p>
+<p><code>Bind</code> 看起来计算量比 <code>Rebase</code> 更大，但其实需要的 I/O 操作很少，性能消耗主要在CPU计算，因为之前 <strong>Rebase</strong> 已经替 <strong>Bind</strong>做过了。</p>
+<h3 id="ObjC"><a href="#ObjC" class="headerlink" title="ObjC"></a>ObjC</h3><p>在 <code>Rebase</code> 和 <code>bind</code> 结束之后，大部分的 <code>ObjC</code> 已经注册完毕。</p>
+<p>那么这一步要做的事情就是：</p>
+<p>1、更新类的成员变量的偏移量</p>
+<p>2、把<code>Category</code> 中的方法插入到类的方法列表里</p>
+<p>3、校验 <code>Selector</code> 的唯一性</p>
+<p>在Objective-C的运行时(runtime)，需要对类(class)，类别(category)进行注册，以及选择器的分配</p>
+<h3 id="Initializers"><a href="#Initializers" class="headerlink" title="Initializers"></a>Initializers</h3><p>到了这里，<code>dyld</code> 开始运行程序的初始化工作：</p>
+<p>1、执行 <code>C++</code> 中的构造器函数，用 <code>__atribute__((constructor))</code> 修饰的函数</p>
+<p>2、执行 每个 <code>ObjC</code> 类和 <code>Category</code> 的 <code>+load</code> 方法</p>
+<p>3、创建非基本类型的 <code>C++</code> 静态全局变量</p>
+<p>以上三部全部执行完毕之后开始调用 <code>main()</code> 函数。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过以上分析，我们已经能够非常清楚从用户点击应用图标到 <code>main()</code> 函数之间所做的事情了。</p>
+<p>时间都去哪了? 时间就是在以上每一步的执行过程中被留下了。</p>
+
       
     </div>
     
@@ -436,8 +498,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -511,6 +582,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mach-O"><span class="nav-number">2.</span> <span class="nav-text">Mach-O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pre-main"><span class="nav-number">3.</span> <span class="nav-text">Pre-main</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-dylibs"><span class="nav-number">3.1.</span> <span class="nav-text">Load dylibs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rebase-Bind"><span class="nav-number">3.2.</span> <span class="nav-text">Rebase/Bind</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ObjC"><span class="nav-number">3.3.</span> <span class="nav-text">ObjC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initializers"><span class="nav-number">3.4.</span> <span class="nav-text">Initializers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
