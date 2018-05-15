@@ -79,22 +79,30 @@
 
 
 
-<meta name="description" content="Xcode编译选项中有一个是 Other Linker Flags，其中可以设置-ObjC、 -all_load、 -force_load，很多开发者都在这里设置过标示，虽然工程运行没有任何问题，但是为什么这么设置未必能够描述清楚，接下来就给大家详细分析一下每一个关键字的意义及使用时机。">
+<meta name="description" content="作为 iOS 开发者，大多数人都申请过自己的个人开发者账号，也尝试过自己申请证书，发布应用，其中的证书之多之繁琐相必大家都有体会， Xcode 7 之前，我们想要真机调试应用，必须需要搞到一套证书；但是随着 Xcode 的迭代升级，证书问题被一步一步弱化，尤其 Xcode 7 之后，官方提供了无证书真机编译的解决方案，真机编译问题终于迎来免费时代。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Other Linker Flags">
-<meta property="og:url" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/index.html">
+<meta property="og:title" content="Xcode &#39;无证书&#39;真机编译调试">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/index.html">
 <meta property="og:site_name" content="小巨人的技术博客">
-<meta property="og:description" content="Xcode编译选项中有一个是 Other Linker Flags，其中可以设置-ObjC、 -all_load、 -force_load，很多开发者都在这里设置过标示，虽然工程运行没有任何问题，但是为什么这么设置未必能够描述清楚，接下来就给大家详细分析一下每一个关键字的意义及使用时机。">
+<meta property="og:description" content="作为 iOS 开发者，大多数人都申请过自己的个人开发者账号，也尝试过自己申请证书，发布应用，其中的证书之多之繁琐相必大家都有体会， Xcode 7 之前，我们想要真机调试应用，必须需要搞到一套证书；但是随着 Xcode 的迭代升级，证书问题被一步一步弱化，尤其 Xcode 7 之后，官方提供了无证书真机编译的解决方案，真机编译问题终于迎来免费时代。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-ObjC.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-all_load.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-force_load.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-MultipleValues.png">
-<meta property="og:updated_time" content="2018-04-02T14:06:22.550Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/general_signing_error.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/build_errors.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/accounts_1.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/accounts_2.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/accounts_3.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/general_signing_verified.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/temp_profile_info.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/launch_error.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_1.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_2.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_3.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/Capabilities.png">
+<meta property="og:updated_time" content="2018-05-15T15:46:16.796Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Other Linker Flags">
-<meta name="twitter:description" content="Xcode编译选项中有一个是 Other Linker Flags，其中可以设置-ObjC、 -all_load、 -force_load，很多开发者都在这里设置过标示，虽然工程运行没有任何问题，但是为什么这么设置未必能够描述清楚，接下来就给大家详细分析一下每一个关键字的意义及使用时机。">
-<meta name="twitter:image" content="http://yoursite.com/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-ObjC.png">
+<meta name="twitter:title" content="Xcode &#39;无证书&#39;真机编译调试">
+<meta name="twitter:description" content="作为 iOS 开发者，大多数人都申请过自己的个人开发者账号，也尝试过自己申请证书，发布应用，其中的证书之多之繁琐相必大家都有体会， Xcode 7 之前，我们想要真机调试应用，必须需要搞到一套证书；但是随着 Xcode 的迭代升级，证书问题被一步一步弱化，尤其 Xcode 7 之后，官方提供了无证书真机编译的解决方案，真机编译问题终于迎来免费时代。">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/general_signing_error.png">
 
 
 
@@ -124,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/02/Other-Linker-Flags/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/"/>
 
 
 
 
 
-  <title>Other Linker Flags | 小巨人的技术博客</title>
+  <title>Xcode '无证书'真机编译调试 | 小巨人的技术博客</title>
   
 
 
@@ -267,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/02/Other-Linker-Flags/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小巨人">
@@ -284,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Other Linker Flags</h1>
+          <h1 class="post-title" itemprop="name headline">Xcode '无证书'真机编译调试</h1>
         
 
         <div class="post-meta">
@@ -296,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-02T21:51:17+08:00">
-                2018-04-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:30:48+08:00">
+                2018-05-15
               </time>
             
 
@@ -306,28 +314,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
-                    <span itemprop="name">Objective-C</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -356,30 +342,39 @@
       
 
       
-        <p>Xcode编译选项中有一个是 <strong>Other Linker Flags</strong>，其中可以设置<code>-ObjC</code>、 <code>-all_load</code>、 <code>-force_load</code>，很多开发者都在这里设置过标示，虽然工程运行没有任何问题，但是为什么这么设置未必能够描述清楚，接下来就给大家详细分析一下每一个关键字的意义及使用时机。</p>
+        <p>作为 <code>iOS</code> 开发者，大多数人都申请过自己的个人开发者账号，也尝试过自己申请证书，发布应用，其中的证书之多之繁琐相必大家都有体会， <code>Xcode 7</code> 之前，我们想要真机调试应用，必须需要搞到一套证书；但是随着 <code>Xcode</code> 的迭代升级，证书问题被一步一步弱化，尤其 <code>Xcode 7</code> 之后，官方提供了无证书真机编译的解决方案，真机编译问题终于迎来免费时代。</p>
 <a id="more"></a>
-<h3 id="Other-Linker-Flags"><a href="#Other-Linker-Flags" class="headerlink" title="Other Linker Flags"></a>Other Linker Flags</h3><p><strong>Other Linker Flags</strong> 位于 <code>TARGETS</code> -&gt; <code>Build Settings</code> -&gt; <code>Linking</code> -&gt; <code>Other Linker Flags</code></p>
+<p>如 <code>Apple</code> 官方文档所述：</p>
+<blockquote>
+<p><strong>Free On-Device Development</strong></p>
+<p>Now everyone can run and test their own app on a device—for free. You can run and debug your own creations on a Mac, iPhone, iPad, iPod touch, or Apple Watch without any fees, and no programs to join. All you need to do is enter your free Apple ID into Xcode. You can even use the same Apple ID you already use for the App Store or iTunes. Once you’ve perfected your app the Apple Developer Program can help you get it on the App Store.</p>
+</blockquote>
+<p>在我们对 <code>Demo</code> 工程没有做任何设置时，<code>TARGETS</code> -&gt; <code>General</code> -&gt; <code>Signing</code> 显示如下</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/general_signing_error.png" alt="general_signing_error.png" title="">
+<p>此时编译工程报错如下：</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/build_errors.png" alt="build_errors.png" title="">
+<p>以上错误都是没有 <code>development team</code> 和 证书导致的。</p>
+<p>那如何来做到免费真机编译调试呢？我用一个测试 <code>Demo</code> 来一一讲述</p>
+<h4 id="一、注册自己的-Apple-ID"><a href="#一、注册自己的-Apple-ID" class="headerlink" title="一、注册自己的 Apple ID"></a>一、注册自己的 <code>Apple ID</code></h4><p><a href="https://appleid.apple.com/account#!&amp;page=create" target="_blank" rel="external">https://appleid.apple.com/account#!&amp;page=create</a></p>
+<h4 id="二、设置-Accounts"><a href="#二、设置-Accounts" class="headerlink" title="二、设置 Accounts"></a>二、设置 <code>Accounts</code></h4><p><code>Xcode</code> -&gt; <code>Preferences...</code> -&gt; <code>Accounts</code></p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/accounts_1.png" alt="accounts_1.png" title="">
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/accounts_2.png" alt="accounts_2.png" title="">
+<p>添加完自己的 <code>Apple ID</code> 显示如下：</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/accounts_3.png" alt="accounts_3.png" title="">
+<h4 id="三、配置-Signing"><a href="#三、配置-Signing" class="headerlink" title="三、配置 Signing"></a>三、配置 <code>Signing</code></h4><p>添加完 <code>Apple ID</code> 后，再回到 <code>TARGETS</code> -&gt; <code>General</code> -&gt; <code>Signing</code> 配置 <code>Team</code> ，配置完毕显示如下</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/general_signing_verified.png" alt="general_signing_verified.png" title="">
+<p>与证书相关的信息可以点击 <code>!</code> 来查看</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/temp_profile_info.png" alt="temp_profile_info.png" title="">
+<h4 id="四、真机编译"><a href="#四、真机编译" class="headerlink" title="四、真机编译"></a>四、真机编译</h4><p>以上配置都配置无误之后就可以进行真机编译了，第一次编译时会遇到如下错误</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/launch_error.png" alt="launch_error.png" title="">
+<p>这是因为 <code>iOS 9.0</code> 以后，对于非 <code>AppStore</code> 渠道的安装包，手机是不信任的，需要我们进行手动授权。</p>
+<h4 id="五、授权"><a href="#五、授权" class="headerlink" title="五、授权"></a>五、授权</h4><p>在手机的 <code>设置</code> -&gt; <code>通用</code> -&gt; <code>描述文件与设备管理</code> -&gt; <code>开发者应用</code> 下找到自己的 <code>Apple ID</code> ，点击操作</p>
+<p><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_1.png" width="200"><br><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_2.png" width="200"><br><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_3.png" width="200"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>经过以上所有操作之后就可以做到免费真机编译调试了，因为是免费的，所以 <code>Apple</code> 也做了严格的限制</p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/Capabilities.png" alt="Capabilities" title="Capabilities">
+<p>仅有有限的 <code>Capabilities</code> 可以使用，具体可以参考 <code>Apple</code> 的<a href="https://developer.apple.com/support/app-capabilities/" target="_blank" rel="external">官方文档</a></p>
+<p>最后，所谓的无证书编译其实是假的，不信可以查看你的 <code>~/Library/MobileDevice/Provisioning Profiles/</code> 下是否有新生成的 <code>mobileprovision</code>。</p>
 
-<p>在这里我当们什么也不设置的时候，如果引入的静态库中有 <code>Cagetory</code>（分类），那么在使用时就会报错</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-[__NSArrayI sum]: unrecognized selector sent to instance <span class="number">0x60000025a550</span></div><div class="line">*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSArrayI sum]: unrecognized selector sent to instance 0x60000025a550'</div></pre></td></tr></table></figure>
-<p>此时我们只要在 <strong>Other Linker Flags</strong> 中添加 <code>-ObjC</code> 即可</p>
-<img src="/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-ObjC.png" alt="OtherLinkerFlags-ObjC.png" title="">
-<p>但是这不是最好的解决方案。</p>
-<h4 id="ObjC"><a href="#ObjC" class="headerlink" title="-ObjC"></a><code>-ObjC</code></h4><p><code>-ObjC</code> 会让链接器把静态库中所有的 <code>Class</code>（类）和 <code>Cagetory</code>（分类）都加载到最后的可执行文件中，这样做的一个好处就是解决了找不到 <code>Cagetory</code> 的问题，缺点是可能引入了一些不必要的文件导致最后的可执行文件变大。</p>
-<p>但是如果一个静态库只有 <code>Cagetory</code> 而没有其它的 <code>Class</code>，在支持 <code>arm64</code> 架构的真机上运行同样会报 <code>unrecognized selector sent to instance</code> 的错误。</p>
-<p><strong>不建议使用 <code>-ObjC</code></strong></p>
-<h4 id="all-load"><a href="#all-load" class="headerlink" title="-all_load"></a><code>-all_load</code></h4><p><code>-all_load</code> 会让链接器把所有的目标文件都加载到可执行文件中，看上去与 <code>-ObjC</code> 的作用类似，但是这个标示同样存在一些问题。</p>
-<img src="/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-all_load.png" alt="OtherLinkerFlags-all_load.png" title="">
-<p>假如所使用的两个或多个静态库中有重复的文件，然后又使用了这个参数，那么就会编译报错<code>ld: 2 duplicate symbols for xxx</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">duplicate symbol _OBJC_CLASS_$_Sum <span class="keyword">in</span>:</div><div class="line">    TestProject/TestProject/TestClassOnlyStaticF.framework/TestClassOnlyStaticF(Sum.o)</div><div class="line">    TestProject/TestProject/TestClassAndCategoryStaticF.framework/TestClassAndCategoryStaticF(Sum.o)</div><div class="line">duplicate symbol _OBJC_METACLASS_$_Sum <span class="keyword">in</span>:</div><div class="line">    TestProject/TestProject/TestClassOnlyStaticF.framework/TestClassOnlyStaticF(Sum.o)</div><div class="line">    TestProject/TestProject/TestClassAndCategoryStaticF.framework/TestClassAndCategoryStaticF(Sum.o)</div><div class="line">ld: <span class="number">2</span> duplicate symbols <span class="keyword">for</span> architecture x86_64</div><div class="line">clang: error: linker command failed with exit code <span class="number">1</span> (use -v to see invocation)</div></pre></td></tr></table></figure>
-<p>如上编译错误提示就是因为 <code>TestClassAndCategoryStaticF</code> 与 <code>TestClassOnlyStaticF</code> 都包含有 <code>Sum.h、Sum.m</code>的文件及类。</p>
-<p><strong>不建议使用 <code>-all_load</code></strong></p>
-<h4 id="force-load"><a href="#force-load" class="headerlink" title="-force_load"></a><code>-force_load</code></h4><p><code>-force_load</code> 所做的事情跟 <code>-all_load</code> 是差不多的，<code>-force_load</code> 需要指定要加载的库文件的路径，这样就只是全部加载了一个库文件，其余库文件按需加载 ，<code>-force_load</code> 在Xcode3.2后可用，现在用这个版本的Xcode已经很少了吧～</p>
-<img src="/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-force_load.png" alt="OtherLinkerFlags-force_load.png" title="">
-<p><strong>建议使用 <code>-force_load</code></strong></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>综合以上分析，推荐使用使用 <code>-force_load</code> 标示，在设置 <code>-force_load</code> 标示时需要注意区分环境。</p>
-<p>显示 <code>Multiple values</code>就表示该标示下的内容在各个环境下不一样</p>
-<img src="/2018/04/02/Other-Linker-Flags/OtherLinkerFlags-MultipleValues.png" alt="OtherLinkerFlags-MultipleValues.png" title="">
       
     </div>
     
@@ -403,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/22/iOS开发技巧/" rel="next" title="iOS开发技巧">
-                <i class="fa fa-chevron-left"></i> iOS开发技巧
+              <a href="/2018/04/02/Other-Linker-Flags/" rel="next" title="Other Linker Flags">
+                <i class="fa fa-chevron-left"></i> Other Linker Flags
               </a>
             
           </div>
@@ -412,10 +407,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/15/Xcode-无证书-真机编译调试/" rel="prev" title="Xcode '无证书'真机编译调试">
-                Xcode '无证书'真机编译调试 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -561,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Other-Linker-Flags"><span class="nav-number">1.</span> <span class="nav-text">Other Linker Flags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ObjC"><span class="nav-number">1.1.</span> <span class="nav-text">-ObjC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#all-load"><span class="nav-number">1.2.</span> <span class="nav-text">-all_load</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#force-load"><span class="nav-number">1.3.</span> <span class="nav-text">-force_load</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、注册自己的-Apple-ID"><span class="nav-number">1.</span> <span class="nav-text">一、注册自己的 Apple ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、设置-Accounts"><span class="nav-number">2.</span> <span class="nav-text">二、设置 Accounts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、配置-Signing"><span class="nav-number">3.</span> <span class="nav-text">三、配置 Signing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、真机编译"><span class="nav-number">4.</span> <span class="nav-text">四、真机编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、授权"><span class="nav-number">5.</span> <span class="nav-text">五、授权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
