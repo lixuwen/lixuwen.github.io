@@ -94,11 +94,9 @@
 <meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/general_signing_verified.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/temp_profile_info.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/launch_error.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_1.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_2.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/2018/05/15/Xcode-无证书-真机编译调试/grant_3.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/grant.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/15/Xcode-无证书-真机编译调试/Capabilities.png">
-<meta property="og:updated_time" content="2018-05-15T15:46:16.796Z">
+<meta property="og:updated_time" content="2018-05-16T03:21:54.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode &#39;无证书&#39;真机编译调试">
 <meta name="twitter:description" content="作为 iOS 开发者，大多数人都申请过自己的个人开发者账号，也尝试过自己申请证书，发布应用，其中的证书之多之繁琐相必大家都有体会， Xcode 7 之前，我们想要真机调试应用，必须需要搞到一套证书；但是随着 Xcode 的迭代升级，证书问题被一步一步弱化，尤其 Xcode 7 之后，官方提供了无证书真机编译的解决方案，真机编译问题终于迎来免费时代。">
@@ -369,7 +367,7 @@
 <img src="/2018/05/15/Xcode-无证书-真机编译调试/launch_error.png" alt="launch_error.png" title="">
 <p>这是因为 <code>iOS 9.0</code> 以后，对于非 <code>AppStore</code> 渠道的安装包，手机是不信任的，需要我们进行手动授权。</p>
 <h4 id="五、授权"><a href="#五、授权" class="headerlink" title="五、授权"></a>五、授权</h4><p>在手机的 <code>设置</code> -&gt; <code>通用</code> -&gt; <code>描述文件与设备管理</code> -&gt; <code>开发者应用</code> 下找到自己的 <code>Apple ID</code> ，点击操作</p>
-<p><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_1.png" width="200"><br><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_2.png" width="200"><br><img src="2018/05/15/Xcode-无证书-真机编译调试/grant_3.png" width="200"></p>
+<img src="/2018/05/15/Xcode-无证书-真机编译调试/grant.png" alt="grant.png" title="">
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>经过以上所有操作之后就可以做到免费真机编译调试了，因为是免费的，所以 <code>Apple</code> 也做了严格的限制</p>
 <img src="/2018/05/15/Xcode-无证书-真机编译调试/Capabilities.png" alt="Capabilities" title="Capabilities">
 <p>仅有有限的 <code>Capabilities</code> 可以使用，具体可以参考 <code>Apple</code> 的<a href="https://developer.apple.com/support/app-capabilities/" target="_blank" rel="external">官方文档</a></p>
